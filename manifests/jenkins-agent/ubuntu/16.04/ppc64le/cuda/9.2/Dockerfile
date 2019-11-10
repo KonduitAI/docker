@@ -1,6 +1,6 @@
 ARG BASEIMAGE_VERSION=9.2-cudnn7-devel-ubuntu16.04
 
-FROM konduitops/jenkins-agent:ppc64le-ubuntu16.04 AS build_tools
+FROM konduit/jenkins-agent:ppc64le-ubuntu16.04 AS build_tools
 
 FROM nvidia/cuda-ppc64le:${BASEIMAGE_VERSION}
 

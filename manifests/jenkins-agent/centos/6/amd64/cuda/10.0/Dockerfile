@@ -1,6 +1,6 @@
 ARG BASEIMAGE_VERSION=10.0-cudnn7-devel-centos6
 
-FROM konduitops/jenkins-agent:amd64-centos6 AS build_tools
+FROM konduit/jenkins-agent:amd64-centos6 AS build_tools
 
 FROM nvidia/cuda:${BASEIMAGE_VERSION}
 
