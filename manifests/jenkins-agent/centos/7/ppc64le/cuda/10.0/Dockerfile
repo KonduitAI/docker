@@ -42,9 +42,6 @@ WORKDIR ${HOME}
 
 RUN mkdir -p .gnupg
 
-# Not working...
-RUN echo 'source /opt/rh/devtoolset-6/enable' >> "${HOME}/.bashrc"
-
 ENV PATH=/opt/sbt/bin:/opt/cmake/bin:/opt/protobuf/bin:${PATH} \
     JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ${JAVA_OPTS}" \
     PROTOBUF_HOME=/opt/protobuf \

@@ -52,14 +52,11 @@ RUN ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/lib
 
 ENV HOME /home/jenkins
 
-RUN groupadd jenkins -g 1001 && useradd -d ${HOME} -u 1001 -g 1001 -m jenkins
+RUN groupadd jenkins -g 1000 && useradd -d ${HOME} -u 1000 -g 1000 -m jenkins
 
 USER jenkins
 
 WORKDIR ${HOME}
-
-# Not working...
-RUN echo 'source /opt/rh/devtoolset-6/enable' >> "${HOME}/.bashrc"
 
 ENV PATH=/opt/sbt/bin:/opt/cmake/bin:/opt/protobuf/bin:/opt/python36/bin:${PATH} \
     JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ${JAVA_OPTS}" \
