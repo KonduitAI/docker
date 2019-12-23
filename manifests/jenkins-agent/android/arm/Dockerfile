@@ -33,7 +33,7 @@ RUN mkdir -p /opt/sbt && \
     tar -xzC /opt/sbt --strip-components=1
 
 RUN mkdir -p /opt/cmake && \
-    curl -fsSL https://cmake.org/files/v3.14/cmake-3.14.3-Linux-x86_64.tar.gz | \
+    curl -fsSL https://cmake.org/files/v3.15/cmake-3.15.5-Linux-x86_64.tar.gz | \
     tar -xzC /opt/cmake --strip-components=1
 
 RUN source /opt/rh/devtoolset-6/enable && \
@@ -47,9 +47,9 @@ RUN source /opt/rh/devtoolset-6/enable && \
     rm -rf protobuf-3.5.1
 
 RUN mkdir -p /opt && \
-    curl -s http://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip -o android-ndk-r16b-linux-x86_64.zip && \
-    unzip -q android-ndk-r16b-linux-x86_64.zip -d /opt && \
-    rm -f android-ndk-r16b-linux-x86_64.zip
+    curl -s http://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip -o android-ndk-r18b-linux-x86_64.zip && \
+    unzip -q android-ndk-r18b-linux-x86_64.zip -d /opt && \
+    rm -f android-ndk-r18b-linux-x86_64.zip
 
 FROM base_image AS base_builder_image
 
@@ -94,7 +94,7 @@ WORKDIR ${HOME}
 
 ENV PATH=/opt/sbt/bin:/opt/cmake/bin:/opt/protobuf/bin:${PATH} \
     JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ${JAVA_OPTS}" \
-    ANDROID_NDK_HOME=/opt/android-ndk-r16b
+    ANDROID_NDK_HOME=/opt/android-ndk-r18b
 
 # This environment variable required for buildnativeoperations.sh script execution
 ENV ANDROID_NDK=${ANDROID_NDK_HOME}
