@@ -14,7 +14,7 @@ RUN apt-get -qqy update && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /opt/maven && \
-    curl -fsSL http://apache.osuosl.org/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz | \
+    curl -fsSL http://apache.osuosl.org/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz | \
         tar -xzC /opt/maven --strip-components=1 && \
     # Workaround for concurrent safe maven local repository
     curl -O http://repo1.maven.org/maven2/io/takari/aether/takari-local-repository/0.11.2/takari-local-repository-0.11.2.jar && \
@@ -26,14 +26,14 @@ RUN mkdir -p /opt/sbt && \
     curl -fsSL https://dl.bintray.com/sbt/native-packages/sbt/0.13.13/sbt-0.13.13.tgz | \
     tar -xzC /opt/sbt --strip-components=1
 
-RUN curl -fsSL https://cmake.org/files/v3.14/cmake-3.14.3.tar.gz \
+RUN curl -fsSL https://cmake.org/files/v3.15/cmake-3.15.5.tar.gz \
     | tar xz && \
-    cd cmake-3.14.3 && \
+    cd cmake-3.15.5 && \
     ./configure --prefix=/opt/cmake && \
     make -j2 && \
     make install && \
     cd .. && \
-    rm -r cmake-3.14.3
+    rm -r cmake-3.15.5
 
 RUN curl -fsSL https://github.com/google/protobuf/releases/download/v3.5.1/protobuf-cpp-3.5.1.tar.gz \
     | tar xz && \
