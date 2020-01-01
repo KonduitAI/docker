@@ -13,6 +13,8 @@ RUN apt-get -qqy update && \
         build-essential && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ENV M2_HOME=/opt/maven
+
 RUN mkdir -p /opt/maven && \
     curl -fsSL http://apache.osuosl.org/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz | \
         tar -xzC /opt/maven --strip-components=1 && \
