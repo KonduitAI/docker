@@ -20,13 +20,8 @@ RUN yum install -y \
 
 ENV M2_HOME /opt/maven
 RUN mkdir -p ${M2_HOME} && \
-    curl -fsSL http://apache.osuosl.org/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz | \
-        tar -xzC ${M2_HOME} --strip-components=1 && \
-    # Workaround for concurrent safe maven local repository
-    curl -O http://repo1.maven.org/maven2/io/takari/aether/takari-local-repository/0.11.2/takari-local-repository-0.11.2.jar && \
-    mv takari-local-repository-0.11.2.jar ${M2_HOME}/lib/ext && \
-    curl -O http://repo1.maven.org/maven2/io/takari/takari-filemanager/0.8.3/takari-filemanager-0.8.3.jar && \
-    mv takari-filemanager-0.8.3.jar ${M2_HOME}/lib/ext
+    curl -fsSL http://apache.osuosl.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz | \
+        tar -xzC ${M2_HOME} --strip-components=1
 
 RUN mkdir -p /opt/sbt && \
     curl -fsSL https://dl.bintray.com/sbt/native-packages/sbt/0.13.13/sbt-0.13.13.tgz | \
