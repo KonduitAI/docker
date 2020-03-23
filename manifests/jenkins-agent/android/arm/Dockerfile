@@ -20,36 +20,28 @@ RUN yum install -y \
 
 ENV M2_HOME /opt/maven
 RUN mkdir -p ${M2_HOME} && \
-    curl -fsSL http://apache.osuosl.org/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.tar.gz | \
-        tar -xzC ${M2_HOME} --strip-components=1 && \
-    # Workaround for concurrent safe maven local repository
-    curl -O http://repo1.maven.org/maven2/io/takari/aether/takari-local-repository/0.11.2/takari-local-repository-0.11.2.jar && \
-    mv takari-local-repository-0.11.2.jar ${M2_HOME}/lib/ext && \
-    curl -O http://repo1.maven.org/maven2/io/takari/takari-filemanager/0.8.3/takari-filemanager-0.8.3.jar && \
-    mv takari-filemanager-0.8.3.jar ${M2_HOME}/lib/ext
-
-RUN mkdir -p /opt/sbt && \
-    curl -fsSL https://dl.bintray.com/sbt/native-packages/sbt/0.13.13/sbt-0.13.13.tgz | \
-    tar -xzC /opt/sbt --strip-components=1
+    curl -fsSL http://apache.osuosl.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz | \
+        tar -xzC ${M2_HOME} --strip-components=1
 
 RUN mkdir -p /opt/cmake && \
-    curl -fsSL https://cmake.org/files/v3.15/cmake-3.15.5-Linux-x86_64.tar.gz | \
+    curl -fsSL https://cmake.org/files/v3.17/cmake-3.17.0-Linux-x86_64.tar.gz | \
     tar -xzC /opt/cmake --strip-components=1
 
 RUN source /opt/rh/devtoolset-6/enable && \
-    curl -fsSL https://github.com/google/protobuf/releases/download/v3.5.1/protobuf-cpp-3.5.1.tar.gz \
+    curl -fsSL https://github.com/google/protobuf/releases/download/v3.8.0/protobuf-cpp-3.8.0.tar.gz \
     | tar xz && \
-    cd protobuf-3.5.1 && \
+    cd protobuf-3.8.0 && \
     ./configure --prefix=/opt/protobuf && \
-    make -j2 && \
+    make -j$(nproc) && \
     make install && \
     cd .. && \
-    rm -rf protobuf-3.5.1
+    rm -rf protobuf-3.8.0
 
+ENV NDK_VERSION=r21
 RUN mkdir -p /opt && \
-    curl -s http://dl.google.com/android/repository/android-ndk-r18b-linux-x86_64.zip -o android-ndk-r18b-linux-x86_64.zip && \
-    unzip -q android-ndk-r18b-linux-x86_64.zip -d /opt && \
-    rm -f android-ndk-r18b-linux-x86_64.zip
+    curl -s http://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux-x86_64.zip -o android-ndk-$NDK_VERSION-linux-x86_64.zip && \
+    unzip -q android-ndk-$NDK_VERSION-linux-x86_64.zip -d /opt && \
+    rm -f android-ndk-$NDK_VERSION-linux-x86_64.zip
 
 FROM base_image AS base_builder_image
 
@@ -92,9 +84,11 @@ USER jenkins
 
 WORKDIR ${HOME}
 
+ENV NDK_VERSION=r21
+
 ENV PATH=/opt/sbt/bin:/opt/cmake/bin:/opt/protobuf/bin:${PATH} \
     JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ${JAVA_OPTS}" \
-    ANDROID_NDK_HOME=/opt/android-ndk-r18b
+    ANDROID_NDK_HOME=/opt/android-ndk-$NDK_VERSION
 
 # This environment variable required for buildnativeoperations.sh script execution
 ENV ANDROID_NDK=${ANDROID_NDK_HOME}
