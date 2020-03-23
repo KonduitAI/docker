@@ -53,6 +53,7 @@ Links:
 * https://mathiashueber.com/manually-update-qemu-on-ubuntu-18-04/
 * https://github.com/multiarch/qemu-user-static/issues/18
 * http://logan.tw/posts/2018/02/18/build-qemu-user-static-from-source-code/
+* https://github.com/multiarch/qemu-user-static/issues/18
 
 
 ### Enable qemu multiarch

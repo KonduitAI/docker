@@ -76,7 +76,8 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F60F4B3D7FA2AF80 &&
 #     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Workaround to fix: CMake Error: The following variables are used in this project, but they are set to NOTFOUND | CUDA_cublas_LIBRARY (ADVANCED) and CUDA_cusolver_LIBRARY (ADVANCED)
-RUN cp -a /usr/local/cuda-10.0/lib64/stubs/* /usr/local/cuda-10.0/lib64/
+RUN cp -a /usr/local/cuda-10.0/lib64/stubs/* /usr/local/cuda-10.0/lib64/ && \
+    ln -s /usr/local/cuda-10.0/lib64/libcusolver.so /usr/local/cuda-10.0/lib64/libcusolver.so.10.0
 
 ENV HOME /home/jenkins
 
@@ -86,9 +87,10 @@ USER jenkins
 
 WORKDIR ${HOME}
 
-RUN mkdir -p .gnupg
+# RUN mkdir -p .gnupg
 
 ENV PATH=/opt/cmake/bin:/opt/protobuf/bin:${PATH} \
-    JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ${JAVA_OPTS}"
+    JAVA_OPTS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap ${JAVA_OPTS}" \
+    LD_LIBRARY_PATH=/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 CMD ["cat"]
